@@ -6,7 +6,7 @@ use \GuzzleHttp\Client;
 
 class Http {
 
-    const API_URL = 'http://apiinscricao.estacio.br/api';
+    const API_URL = 'https://api.themoviedb.org/3/';
     const CACHE_EXPIRATION_TIME = 1440;
 
     public function guzzleGet($query, $headers = [], $ajax=false)
@@ -24,14 +24,14 @@ class Http {
             return $promise->wait()->getBody()->getContents();
 
         } catch (\Exception $e) {
-            if(!$ajax){
-                if($e->getCode() !== 404) {
-                    app('sentry')->captureMessage('STAGE 1 - GUZZLEGET URL:' . $url);
-                    app('sentry')->captureException($e, array(
-                        'tags' => array('canal' => 'GRADUACAO CONTROLLER')
-                    ));
-                }
-            }
+            // if(!$ajax){
+            //     if($e->getCode() !== 404) {
+            //         app('sentry')->captureMessage('STAGE 1 - GUZZLEGET URL:' . $url);
+            //         app('sentry')->captureException($e, array(
+            //             'tags' => array('canal' => 'GRADUACAO CONTROLLER')
+            //         ));
+            //     }
+            // }
             return null;
         }
     }

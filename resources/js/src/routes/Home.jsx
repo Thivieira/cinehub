@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <Layout>
       <Container>
-        <Row>
+        <Row className="align-items-center justify-content-center">
           <Carousel items={items} />
         </Row>
       </Container>

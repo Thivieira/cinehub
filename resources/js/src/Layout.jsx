@@ -5,7 +5,9 @@ export default function Layout(props) {
   return (
     <div>
       <Header />
-      <div className="container">{props.children}</div>
+      <div className="site-container">
+        <div className="container">{props.children}</div>
+      </div>
     </div>
   );
 }

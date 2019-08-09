@@ -1,23 +1,30 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
+function Logo() {
+  return (
+    <div className="logo" title="Cinehub">
+      <h1>Cinehub</h1>
+      <Link to="/" className="navbar-brand card rounded-circle">
+        <img src="img/logo_200x200.png" title="Cinehub" />
+      </Link>
+    </div>
+  );
+}
+
 const Header = props => {
   return (
-    <nav className="navbar-dark bg-default navbar navbar-expand-lg">
-      <div className="container">
-        <Link to="/" className="navbar-brand">
-          Cinehub
-        </Link>
+    <nav className="navbar-dark custom-navbar bg-default navbar navbar-expand-lg">
+      <div className="container align-items-center">
+        <Logo />
         <button className="navbar-toggler" id="navbar-default">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div toggler="#navbar-default" className="collapse navbar-collapse">
+        <div toggler="#navbar-default" className="collapse">
           <div className="navbar-collapse-header">
             <div className="row">
               <div className="collapse-brand col-6">
-                <Link to="/" className="navbar-brand">
-                  Cinehub
-                </Link>
+                <Logo />
               </div>
               <div className="collapse-close col-6">
                 <button className="navbar-toggler" id="navbar-default">
