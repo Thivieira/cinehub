@@ -4,9 +4,9 @@ import { Link, NavLink } from 'react-router-dom';
 function Logo() {
   return (
     <div className="logo" title="Cinehub">
-      <h1>Cinehub</h1>
-      <Link to="/" className="navbar-brand card rounded-circle">
+      <Link to="/" className="navbar-brand">
         <img src="img/logo_200x200.png" title="Cinehub" />
+        <h1>Cinehub</h1>
       </Link>
     </div>
   );
@@ -14,7 +14,7 @@ function Logo() {
 
 const Header = props => {
   return (
-    <nav className="navbar-dark custom-navbar bg-default navbar navbar-expand-lg">
+    <nav className="custom-navbar navbar navbar-expand-lg">
       <div className="container align-items-center">
         <Logo />
         <button className="navbar-toggler" id="navbar-default">

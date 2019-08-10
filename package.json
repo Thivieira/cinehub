@@ -25,6 +25,8 @@
         "pretty-quick": "^1.11.1",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
+        "react-helmet": "^5.2.1",
+        "react-infinite-scroll-component": "^4.5.3",
         "react-redux": "^7.1.0",
         "react-router-dom": "^5.0.1",
         "reactstrap": "^8.0.1",
@@ -32,6 +34,8 @@
         "redux-thunk": "^2.3.0",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
-        "sass-loader": "^7.1.0"
-    }
+        "sass-loader": "^7.1.0",
+        "universal-cookie": "^4.0.2"
+    },
+    "dependencies": {}
 }

@@ -1,6 +1,8 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 import Layout from '../Layout.jsx';
 import Carousel from '../components/Carousel.jsx';
+import MovieGallery from '../components/Infinite/MovieGallery.jsx';
 import { Container, Row, Col } from 'reactstrap';
 
 export default function Home() {
@@ -27,9 +29,15 @@ export default function Home() {
 
   return (
     <Layout>
+      <Helmet>
+        <meta />
+      </Helmet>
       <Container>
         <Row className="align-items-center justify-content-center">
           <Carousel items={items} />
+        </Row>
+        <Row>
+          <MovieGallery />
         </Row>
       </Container>
     </Layout>
