@@ -23,7 +23,51 @@ class ApiController extends Controller
       return response($configuration)->header('Content-Type', 'application/json');
     }
 
-    public function retrieveLatestsMovies(Request $request)
+    public function retrieveMovieById(Request $request, $id)
+    {
+      $lang = 'en-US';
+
+      if ($request->filled('lang')) {
+          $lang = $request->lang;
+      }
+
+
+      $movies = $this->http->guzzleGet("movie/$id?"."api_key=".$this->_api_key."&language={$lang}");
+
+      return response($movies)->header('Content-Type', 'application/json');
+    }
+
+    public function retrieveSearchedMovies(Request $request)
+    {
+      $lang = 'en-US';
+      $page = 1;
+
+      if ($request->filled('lang')) {
+          $lang = $request->lang;
+      }
+
+      if ($request->filled('page')) {
+          $page = $request->page;
+      }
+
+      if($request->filled('query')){
+        $query = $request->query;
+      }
+
+      $movies = $this->http->guzzleGet("search/movie?"."api_key=".$this->_api_key."&language={$lang}&page={$page}&query={urlencode($query)}");
+
+      return response($movies)->header('Content-Type', 'application/json');
+    }
+
+    public function retrieveTrendingMovies(Request $request)
+    {
+
+      $movies = $this->http->guzzleGet("trending/movie/day?"."api_key=".$this->_api_key);
+
+      return response($movies)->header('Content-Type', 'application/json');
+    }
+
+    public function retrievePopularMovies(Request $request)
     {
       $lang = 'en-US';
       $page = 1;

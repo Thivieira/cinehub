@@ -21,8 +21,11 @@
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
+        <meta name="base-url" content="{{ url('/') }}" />
+        <meta name="api-base-url" content="{{ url('api') }}" />
         <title>{{ config('app.name') }}</title>
-        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,900&display=swap" rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
         <!-- Fonts -->
 

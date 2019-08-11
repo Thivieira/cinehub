@@ -13,8 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['prefix'=>'movies'],function(){
-  Route::get('popular','ApiController@retrieveLatestsMovies');
+Route::group(['prefix'=>'movies'], function () {
+    Route::get('trending','ApiController@retrieveTrendingMovies');
+    Route::get('popular', 'ApiController@retrievePopularMovies');
+    Route::get('search', 'ApiController@retrieveSearchedMovies');
 });
 
-Route::get('configuration','ApiController@retrieveImageConfiguration');
+Route::get('movie/{id}', 'ApiController@retrieveMovieById');
+
+Route::get('configuration', 'ApiController@retrieveImageConfiguration');

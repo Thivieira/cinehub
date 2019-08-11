@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { fetchPopularMovies } from '../../actions/moviesActions';
 import MovieItem from './MovieItem.jsx';
+import InfiniteLoader from '../InfiniteLoader.jsx';
 
 class MovieGallery extends React.Component {
   constructor(props) {
@@ -14,12 +15,13 @@ class MovieGallery extends React.Component {
   }
 
   fetchNext() {
-    this.props.fetchPopularMovies({ page: this.state.page + 1 });
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+    this.props.fetchPopularMovies({ page: this.state.page, infinite: true });
   }
 
   render() {
     const items = this.props.movies;
-    console.log('items', items);
+
     if (!items) {
       return null;
     }
@@ -29,7 +31,7 @@ class MovieGallery extends React.Component {
         dataLength={items.length}
         next={this.fetchNext}
         hasMore={true}
-        loader={<h4>Loading...</h4>}
+        loader={<InfiniteLoader />}
         endMessage={
           <p style={{ textAlign: 'center' }}>
             <b>Yay! You have seen it all</b>
@@ -48,6 +50,7 @@ class MovieGallery extends React.Component {
         {this.props.movies.map(movie => (
           <MovieItem
             key={movie.id}
+            id={movie.id}
             url={this.props.imagePath.images.secure_base_url + 'w342' + movie.poster_path}
             altText={movie.title}
             title={movie.title}
@@ -60,12 +63,13 @@ class MovieGallery extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchPopularMovies();
+    if (this.props.movies.length === 0) {
+      this.props.fetchPopularMovies();
+    }
   }
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     movies: state.movies.movies,
     imagePath: state.movies.configuration,

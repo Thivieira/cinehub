@@ -1,6 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import uiReducer from './reducers/ui';
 import moviesReducer from './reducers/movies';
 
 const initialState = {};
@@ -12,7 +11,6 @@ function root(state = initialState, action) {
 const store = createStore(
   combineReducers({
     root,
-    ui: uiReducer,
     movies: moviesReducer,
   }),
   compose(

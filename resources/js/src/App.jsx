@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Home from './routes/Home.jsx';
+import Movie from './routes/Movie.jsx';
+import NotFound from './routes/NotFound.jsx';
 import store from './store';
 import { fetchConfiguration } from './actions/moviesActions';
 import '../../vendor/font-awesome/css/font-awesome.min.css';
-import '../../sass/argon-design-system-react.scss';
+import '../../sass/app.scss';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,7 +23,11 @@ class App extends React.Component {
     return (
       <Provider store={store}>
         <BrowserRouter>
-          <Route path="/" exact component={Home} />
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/movie/:id" component={Movie} />
+            <Route component={NotFound} />
+          </Switch>
         </BrowserRouter>
       </Provider>
     );
