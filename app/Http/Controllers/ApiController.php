@@ -51,10 +51,10 @@ class ApiController extends Controller
       }
 
       if($request->filled('query')){
-        $query = $request->query;
+        $query = $request->get('query');
       }
-
-      $movies = $this->http->guzzleGet("search/movie?"."api_key=".$this->_api_key."&language={$lang}&page={$page}&query={urlencode($query)}");
+      $treatQuery = urlencode($query);
+      $movies = $this->http->guzzleGet("search/movie?"."api_key=".$this->_api_key."&language={$lang}&page={$page}&query={$treatQuery}");
 
       return response($movies)->header('Content-Type', 'application/json');
     }

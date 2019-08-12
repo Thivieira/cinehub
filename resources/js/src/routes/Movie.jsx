@@ -13,6 +13,7 @@ import {
 } from 'reactstrap';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import { fetchMovie, UNFETCH_MOVIE } from '../actions/moviesActions';
 import Layout from '../Layout.jsx';
 import Loader from '../components/Loader';
@@ -59,7 +60,7 @@ class Movie extends React.Component {
               movie.backdrop_path}');`,
           }}
         >
-          <title>{this.props.movie.title} - Cineclub</title>
+          <title>{this.props.movie.title} - Cinehub</title>
         </Helmet>
         <Container>
           <Row>
@@ -79,17 +80,15 @@ class Movie extends React.Component {
                   <h1>{movie.title}</h1>
                 </CardTitle>
                 <CardSubtitle>
-                  <span>Release Date: {movie.release_date}</span>
+                  <span>Release Date: {moment(movie.release_date).format('DD/MM/YYYY')}</span>
                 </CardSubtitle>
-                <CardText>
-                  <p>{movie.overview}</p>
-                </CardText>
+                <CardText>{movie.overview}</CardText>
                 <GenresList genres={movie.genres} />
               </CardBody>
             </Card>
           </Row>
           <Row className="justify-content-center">
-            <Link to="/" class="back-link text-center">
+            <Link to="/" className="back-link text-center">
               Go back now and browse more movies!
             </Link>
           </Row>

@@ -65,7 +65,13 @@ export function fetchConfiguration() {
 
 export function fetchMovie(obj) {
   return (dispatch, getState) => {
-    dispatch(toggleLoading(true));
+    let i = false;
+
+    if ('infinite' in obj) {
+      i = obj.infinite;
+    }
+
+    dispatch(toggleLoading(true, i));
     let str = '?';
     if ('lang' in obj) {
       str += `lang=${obj.lang}`;
@@ -74,13 +80,13 @@ export function fetchMovie(obj) {
       .get(`movie/${obj.id}${str}`)
       .then(data => {
         dispatch(movieWasFetched(data.data));
-        dispatch(toggleLoading(false));
+        dispatch(toggleLoading(false, i));
       })
       .catch(err => console.log(err));
   };
 }
 
-export function fetchTrendingMovies() {
+export function fetchTrendingMovies(obj) {
   return (dispatch, getState) => {
     dispatch(toggleLoading(true));
     axios
@@ -98,8 +104,7 @@ export function fetchPopularMovies(obj = {}) {
     let i = false;
 
     if ('infinite' in obj) {
-      console.log(obj);
-      i = true;
+      i = obj.infinite;
     }
 
     dispatch(toggleLoading(true, i));
@@ -127,22 +132,21 @@ export function fetchPopularMovies(obj = {}) {
   };
 }
 
-export function searchMovies(location) {
+export function searchMovies(obj) {
   return (dispatch, getState) => {
-    dispatch(toggleLoading(true));
-    // let capitalIndex = getState().card.capitais.findIndex(
-    //   capital => normalizeString(capital) === normalizeString(location),
-    // );
-    // capitalIndex = getState().card.capitais.length < capitalIndex ? capitalIndex : capitalIndex;
-    // let value = getState().card.capitaisCode[capitalIndex];
-    dispatch(toggleSuggestions(false));
-    dispatch(toggleLoading(false));
-  };
-}
+    let i = false;
 
-function normalizeString(str) {
-  return str
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
+    if ('infinite' in obj) {
+      i = obj.infinite;
+    }
+
+    dispatch(toggleLoading(true, i));
+    axios
+      .get(`movies/search?query=${obj.query}`)
+      .then(data => {
+        dispatch(moviesSearchWasFetched(data.data));
+        dispatch(toggleLoading(false, i));
+      })
+      .catch(err => console.log(err));
+  };
 }

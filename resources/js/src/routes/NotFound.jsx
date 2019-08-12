@@ -19,7 +19,7 @@ export default function NotFound() {
         </Card>
       </Row>
       <Row className="justify-content-center">
-        <Link to="/" class="back-link text-center">
+        <Link to="/" className="back-link text-center">
           Go back now and browse more movies!
         </Link>
       </Row>

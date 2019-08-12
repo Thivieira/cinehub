@@ -46,7 +46,7 @@ function Layout(props) {
       <div className="site-container">
         {!props.loading ? <div className="container">{props.children}</div> : <Loader />}
       </div>
-      <ScrollButton scrollStepInPx="50" delayInMs="16.66" />
+      <ScrollButton scrollStepInPx="50" delayInMs="7" />
     </div>
   );
 }

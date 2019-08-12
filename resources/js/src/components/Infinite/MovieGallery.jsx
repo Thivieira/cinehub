@@ -37,20 +37,12 @@ class MovieGallery extends React.Component {
             <b>Yay! You have seen it all</b>
           </p>
         }
-        // below props only if you need pull down functionality
-        // refreshFunction={this.refresh}
-        // pullDownToRefresh
-        // pullDownToRefreshContent={
-        //   <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-        // }
-        // releaseToRefreshContent={
-        //   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-        // }
       >
         {this.props.movies.map(movie => (
           <MovieItem
             key={movie.id}
             id={movie.id}
+            item={movie}
             url={this.props.imagePath.images.secure_base_url + 'w342' + movie.poster_path}
             altText={movie.title}
             title={movie.title}

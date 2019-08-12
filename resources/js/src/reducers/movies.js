@@ -7,6 +7,7 @@ import {
   FETCH_MOVIE,
   FETCH_POPULAR_MOVIES,
   FETCH_TRENDING_MOVIES,
+  FETCH_SEARCHED_MOVIES,
 } from '../actions/moviesActions';
 
 const INITIAL_STATE = {
@@ -47,7 +48,11 @@ export default function(state = INITIAL_STATE, action) {
       });
     case FETCH_TRENDING_MOVIES:
       return Object.assign({}, state, {
-        suggestions: state.suggestions.concat(action.data.results),
+        suggestions: action.data.results,
+      });
+    case FETCH_SEARCHED_MOVIES:
+      return Object.assign({}, state, {
+        suggestions: action.data.results,
       });
     case FETCH_POPULAR_MOVIES:
       return Object.assign({}, state, {

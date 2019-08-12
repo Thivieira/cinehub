@@ -47,7 +47,7 @@ body {
       position: relative;
       font-weight: 900;
       bottom: 20px;
-      font-family: Nunito Sans Black;
+      font-family: Nunito Sans;
       @include media-breakpoint-up(lg) {
         bottom: 30px;
         font-size: 2.5rem;
@@ -83,7 +83,8 @@ body {
       opacity: 0.3;
       transition: all ease-in-out 0.25s;
     }
-    .card-title {
+    .card-title,
+    .card-subtitle {
       visibility: visible;
     }
   }
@@ -98,10 +99,24 @@ body {
     position: relative;
     bottom: 200px;
     left: 0px;
+    background-color: rgba(0, 0, 0, 0.7);
     visibility: hidden;
     text-align: center;
     transition: all ease-in-out 0.25s;
-    background-color: #000;
+    cursor: pointer;
+  }
+
+  .card-subtitle {
+    color: cornsilk;
+    font-weight: bolder;
+    font-size: larger;
+    position: relative;
+    bottom: 200px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.7);
+    visibility: hidden;
+    text-align: center;
+    transition: all ease-in-out 0.25s;
     cursor: pointer;
   }
 }
@@ -138,6 +153,14 @@ body {
   .movie-card-body {
     background-color: rgba(0, 0, 0, 0.9);
     color: white;
+    .card-text {
+      font-size: 1.25rem;
+    }
+    ul {
+      li {
+        font-size: 1.25rem;
+      }
+    }
   }
 }
 

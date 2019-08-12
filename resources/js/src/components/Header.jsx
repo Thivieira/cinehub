@@ -4,10 +4,10 @@ import { baseURL } from '../../bootstrap';
 
 function Logo(props) {
   return (
-    <div className="logo" title="Cineclub">
+    <div className="logo" title="Cinehub">
       <Link to="/" className="navbar-brand">
-        <img src={baseURL + '/img/logo_200x200.png'} title="Cineclub" />
-        <h1>Cineclub</h1>
+        <img src={baseURL + '/img/logo_200x200.png'} title="Cinehub" />
+        <h1>Cinehub</h1>
       </Link>
     </div>
   );

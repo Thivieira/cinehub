@@ -1,24 +1,95 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { toggleSuggestions, fetchTrendingMovies } from '../actions/moviesActions';
+import InfiniteLoader from '../components/InfiniteLoader.jsx';
+import { toggleSuggestions, searchMovies } from '../actions/moviesActions';
+import store from '../store';
+import { Link } from 'react-router-dom';
+import { debounce } from 'lodash';
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleSuggestions: bool => {
+      dispatch(toggleSuggestions(bool));
+    },
+    searchMovies: obj => {
+      dispatch(searchMovies(obj));
+    },
+  };
+};
+
+function mapStateToProps(state, ownProps) {
+  return {
+    isSuggestionsOpen: state.movies.isSuggestionsOpen,
+    suggestions: state.movies.suggestions,
+  };
+}
+
+function useOutsideToggle(ref) {
+  function handleClickOutside(event) {
+    if (ref.current && !ref.current.contains(event.target)) {
+      store.dispatch(toggleSuggestions(false));
+    }
+  }
+
+  useEffect(() => {
+    // Bind the event listener
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  });
+}
+
+const SuggestionsList = props => {
+  const wrapperRef = useRef(null);
+  useOutsideToggle(wrapperRef);
+
+  if (props.filtered.length === 0) {
+    return (
+      <ul className="suggestions-list" ref={wrapperRef}>
+        <InfiniteLoader suggestionsBox={true} />
+      </ul>
+    );
+  }
+  return (
+    <ul className="suggestions-list" ref={wrapperRef}>
+      {props.filtered.map((item, key) => {
+        if (key < 10) {
+          return (
+            <li key={key}>
+              <Link to={`/movie/${item.id}`}>{item.title}</Link>
+            </li>
+          );
+        }
+      })}
+    </ul>
+  );
+};
+
+const SuggestionsListConnected = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SuggestionsList);
 
 class InputSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
       filtered: [],
+      value: '',
     };
-    this.handleChange = this.handleChange.bind(this);
+
     this.openSuggestions = this.openSuggestions.bind(this);
     this.closeSuggestions = this.closeSuggestions.bind(this);
-    this.searchMovies = this.searchMovies.bind(this);
   }
 
   componentDidMount() {
-    this.setState({
-      filtered: this.props.suggestions,
-    });
+    this.setState({ filtered: this.props.suggestions });
+  }
+
+  componentWillUnmount() {
+    this.debouncedEvent.cancel();
   }
 
   openSuggestions() {
@@ -29,96 +100,61 @@ class InputSection extends React.Component {
     this.props.toggleSuggestions(false);
   }
 
-  handleChange(e) {
-    this.openSuggestions();
-    this.props.fetchTrending();
+  debounceEvent(...args) {
+    this.debouncedEvent = debounce(...args);
+    return e => {
+      e.persist();
+      return this.debouncedEvent(e);
+    };
+  }
 
-    // Variable to hold the original version of the list
+  handleChange(event) {
+    const { suggestions } = this.props;
+    const value = event.target.value;
+    this.setState({ value });
+
     let currentList = [];
-    // Variable to hold the filtered list before putting into state
     let newList = [];
 
-    // If the search bar isn't empty
-    if (e.target.value !== '') {
-      // Assign the original list to currentList
-      currentList = this.state.filtered;
+    if (value !== '') {
+      this.props.searchMovies({ query: this.state.value, infinite: true });
+      currentList = suggestions;
 
-      // Use .filter() to determine which items should be displayed
-      // based on the search terms
       newList = currentList.filter(item => {
-        // change current item to lowercase
-        const lc = item.toLowerCase();
-        // change search term to lowercase
-        const filter = e.target.value.toLowerCase();
-        // check to see if the current list item includes the search term
-        // If it does, it will be added to newList. Using lowercase eliminates
-        // issues with capitalization in search terms and search content
+        const lc = item.title.toLowerCase();
+
+        const filter = value.toLowerCase();
+
         return lc.includes(filter);
       });
     } else {
-      // If the search bar is empty, set newList to original task list
-      newList = this.state.capitais;
+      newList = suggestions;
     }
-    // Set the filtered state based on what our rules added to newList
-    this.setState({
-      filtered: newList,
-    });
-  }
 
-  searchMovies(param) {
-    this.setState(prevState => ({ ...prevState, value: param }));
-    this.props.fetchMovies(param);
+    this.setState({ filtered: newList });
   }
 
   render() {
     return (
-      <React.Fragment>
-        <div className="input-section">
+      <div className="input-section">
+        <div className="input-container">
           <div className="form-group">
             <input
               type="text"
               className="search-input form-control"
-              placeholder="Start typing to search a movie..."
-              value={this.state.value}
+              placeholder="Start typing to search for a movie..."
               onClick={this.openSuggestions}
-              onChange={this.handleChange}
+              onChange={this.debounceEvent(this.handleChange, 500)}
             />
-            <span className="form-control-feedback fa fa-search"></span>
+            <span className="search-icon fa fa-search"></span>
           </div>
         </div>
         {this.props.isSuggestionsOpen && (
-          <ul ref={node => (this.node = node)}>
-            {this.state.filtered.map((item, key) => (
-              <li key={key} onClick={this.searchMovies(item)}>
-                {item}
-              </li>
-            ))}
-          </ul>
+          <SuggestionsListConnected filtered={this.state.filtered} />
         )}
-      </React.Fragment>
+      </div>
     );
   }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    toggleSuggestions: bool => {
-      dispatch(toggleSuggestions(bool));
-    },
-    fetchTrending() {
-      dispatch(fetchTrendingMovies());
-    },
-    fetchMovies: location => {
-      // dispatch(fetchCity(location));
-    },
-  };
-};
-
-function mapStateToProps(state, ownProps) {
-  return {
-    isSuggestionsOpen: state.movies.isSuggestionsOpen,
-    suggestions: state.movies.suggestions,
-  };
 }
 
 export default connect(

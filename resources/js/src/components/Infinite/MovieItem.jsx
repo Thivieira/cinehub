@@ -1,18 +1,19 @@
 import React from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Card, CardImg, CardTitle, CardSubtitle, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 export default function MovieItem(props) {
   return (
     <Card className="movie-card card card--z-3">
       <Link to={`movie/${props.id}`}>
         <CardImg top className="movie-item-image" src={props.url} alt={props.altText} />
-        <CardTitle>{props.title}</CardTitle>
-        {/* <CardBody>
+        <CardBody>
           <CardTitle>{props.title}</CardTitle>
-          <CardSubtitle>{props.subtitle}</CardSubtitle>
-          <CardText className="movie-item-text">{props.text || props.children}</CardText>
-        </CardBody> */}
+          <CardSubtitle>
+            Release Date: {moment(props.item.release_date).format('DD/MM/YYYY')}
+          </CardSubtitle>
+        </CardBody>
       </Link>
     </Card>
   );
