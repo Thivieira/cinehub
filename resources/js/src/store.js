@@ -7,7 +7,12 @@ const initialState = {};
 function root(state = initialState, action) {
   return state;
 }
-/* eslint-disable no-underscore-dangle */
+
+const composeEnhancers =
+  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()
+    : compose;
+
 const store = createStore(
   combineReducers({
     root,
@@ -15,7 +20,7 @@ const store = createStore(
   }),
   compose(
     applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    composeEnhancers,
   ),
 );
 

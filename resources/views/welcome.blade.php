@@ -30,7 +30,14 @@
 
     </head>
     <body>
-        <div id="app"></div>
+        <div id="app">
+          <noscript>
+            For full functionality of this site it is necessary to enable JavaScript.
+            Here are the <a href="https://www.enable-javascript.com/">
+            instructions how to enable JavaScript in your web browser</a>.
+          </noscript>
+        </div>
+
         <script src="{{ mix('js/app.js') }}"></script>
     </body>
 </html>
