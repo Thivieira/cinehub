@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix'=>'movies'], function () {
+    Route::get('trending','ApiController@retrieveTrendingMovies');
+    Route::get('popular', 'ApiController@retrievePopularMovies');
+    Route::get('search', 'ApiController@retrieveSearchedMovies');
 });
+
+Route::get('movie/{id}', 'ApiController@retrieveMovieById');
+
+Route::get('configuration', 'ApiController@retrieveImageConfiguration');
